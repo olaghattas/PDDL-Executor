@@ -67,11 +67,13 @@ def parse_plan_graph(plan_txt: str, unique_nodes=True, unique_edges=False) -> Do
 
 
 def main():
-    with open("/tmp/plan_solver/plan.txt") as f:
+    home_dir = os.environ["HOME"]
+    with open(home_dir + "/planner_data/plan_solver/plan.txt") as f:
         dot = parse_plan_graph(f.read(),
                                unique_nodes=True, unique_edges=False)
-        dot.write("/tmp/plan_solver/plan-graph.png", format='png')
-        os.system('open /tmp/plan_solver/plan-graph.png')
+        dot.write(home_dir + "/planner_data/plan_solver/plan-graph.png", format='png')
+        path_to_image = os.path.join(home_dir, "planner_data", "plan_solver", "plan-graph.png")
+        os.system(f'open "{path_to_image}"')
 
 
 if __name__ == '__main__':

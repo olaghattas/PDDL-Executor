@@ -13,7 +13,7 @@ pred.parameters = [param1]
 print(pred)
 
 pred = pddl_parser.parser.parse_predicate("(person_at ?p - person ?lm - landmark)")
-print(pred)
+# print(pred)
 
 domain_dir = os.path.join(get_package_share_directory("pddl_parser_py"), "tests", "pddl", "medicine_domain.pddl")
 with open(domain_dir) as f:

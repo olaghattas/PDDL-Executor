@@ -41,7 +41,9 @@ def main():
     predicates = []
     pred_name_maps = []
     all_types = set()
+    print(f"hduvhfvvuxbudomain_file {domain_files}")
     for domain_file in domain_files:
+        print(f"domain_file {domain_file}", sys.stderr)
         with open(domain_file) as f:
             domain = pddl_parser.parser.parse_domain(f.read())
 

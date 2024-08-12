@@ -43,15 +43,23 @@ class ActionInstance:
 def main():
     args = parse_args()
     domain_file = args.domain_file
+    print("parsed argument domain file: ", domain_file)
     problem_file = args.problem_file
+    print("parsed argument problem file: ", problem_file)
+
     output_file = args.output_file
+    print("output_file: ", output_file)
 
     templates = get_all_templates()
+    # print("template: ", templates)
     with open(domain_file) as f:
+        print("hdhashdjkfads'", domain_file)
         domain = pddl_parser.parser.parse_domain(f.read())
+        print("******************************",domain )
     with open(problem_file) as f:
         problem = pddl_parser.parser.parse_problem(f.read())
-
+        # print("******************************", problem)
+    print("******************************",domain )
     objs = domain.constants
     for obj in problem.objects:
         objs.append(obj)
@@ -74,15 +82,20 @@ def main():
     kb_template_map = dict()
     counter = 0
     for pred in domain.predicates:
+        print("KB_templates: ", pred)
         params = pred.parameters
+        print("params: ", params )
         objects = []
         for param in params:
             objects.append(problem_objects_map[param.type])
+            print("in params objects: ", problem_objects_map[param.type])
         parameter_product = list(itertools.product(*objects))
         for val in parameter_product:
-            param_subs = {pair[0].name.strip('?'): pair[1] for pair in zip(pred.parameters, val)}
-            pred_inst = pddl_parser.parser.instantiate_predicate(pred, param_subs)
 
+            param_subs = {pair[0].name.strip('?'): pair[1] for pair in zip(pred.parameters, val)}
+            print("param_subs", param_subs)
+            pred_inst = pddl_parser.parser.instantiate_predicate(pred, param_subs)
+            print("pred_inst", pred_inst)
             kb_template.append(pred_inst)
             kb_template_map[str(pred_inst)] = counter
             counter += 1
@@ -235,6 +248,7 @@ def parse_observe_preconditions(cond, kb_template_map):
 
 
 def parse_preconditions(cond, negate, kb_template_map):
+    #print("^^^^^^^^^^^^^^^^^^", kb_template_map)
     if cond.op == pddl_parser.parser.NOT:
         assert (len(cond.conditions) == 1)
         if type(cond.conditions[0]) is pddl_parser.parser.InstantiatedCondition:
@@ -258,6 +272,7 @@ def parse_preconditions(cond, negate, kb_template_map):
                 else:
                     delim = " || "
             if type(sub_cond) is pddl_parser.parser.InstantiatedPredicate:
+                # print("sub_cnd: ", str(sub_cond))
                 index = kb_template_map[str(sub_cond)]
                 if not negate:
                     out += f"{delim}state.data[{index}]==1"

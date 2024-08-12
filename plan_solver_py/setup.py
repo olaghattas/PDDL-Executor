@@ -31,6 +31,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': ['plan_solver = plan_solver_py.plan_solver:main',
+                            'generate_sub_plan = plan_solver_py.generate_sub_plan:main',
                             'plan_graph = plan_solver_py.plan_graph:main'],
     },
 )
